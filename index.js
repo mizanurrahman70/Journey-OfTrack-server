@@ -55,6 +55,39 @@ app.get('/torists_sides',async(req,res)=>{
  const result = await toristList.insertOne(sides)
  res.send(result)
  })
+ app.put('/details/:id',async(req,res)=>{
+  const id =req.params.id
+  const user=req.body
+  const quari={_id: new ObjectId(id)}
+  const options = { upsert: true };
+  const userUpdate ={
+    $set:{
+      toristSportName:user.toristSportName,
+      countryName:user.countryName,
+      average_cost:user.average_cost,
+      seasonality:user.seasonality,
+      travel_time:user.travel_time,
+      totaVisitorsPerYearuser:user.totaVisitorsPerYearuser,
+      emailuser:user.emailuser,
+      name:user.name,
+      shortDescripion:user.shortDescripion,
+      imgURL:user.imgURL,
+    }
+   
+  }
+  console.log(userUpdate)
+  const result =await toristList.updateOne(quari,userUpdate,options)
+  console.log(result)
+  res.send(result)
+ })
+ app.delete('/details/:id', async(req,res)=>{
+   const id =req.params.id
+   console.log(id)
+   const quari={_id: new ObjectId (id)}
+   const result=await toristList.deleteOne(quari)
+   console.log(result)
+   res.send(result)
+ })
 
 
 
