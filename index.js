@@ -33,7 +33,7 @@ async function run() {
     const allToristSides = database.collection("tourist_sides");
     // Send a ping to confirm a successful connection
 
-   app.get('/toristSport',async(req,res)=>{
+   app.get('/toristSports',async(req,res)=>{
     let query = {};
     const subCatagori = req.query.Sub_Catagori; // Access query parameter
     if (subCatagori) {
@@ -41,6 +41,7 @@ async function run() {
     }
 
     const touristSpots = await allToristSides.find(query).toArray();
+    res.send(touristSpots)
    })
    app.get('/toristSport/:country_Name',async(req,res)=>{
    const countryNameId=req.params.country_Name
