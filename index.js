@@ -30,7 +30,35 @@ async function run() {
     await client.connect();
     const database = client.db("toristBD");
     const toristList = database.collection("ToristList");
+    const allToristSides = database.collection("tourist_sides");
     // Send a ping to confirm a successful connection
+
+   app.get('/toristSport',async(req,res)=>{
+    let query = {};
+    const subCatagori = req.query.Sub_Catagori; // Access query parameter
+    if (subCatagori) {
+      query = { Sub_Catagori: subCatagori };
+    }
+
+    const touristSpots = await allToristSides.find(query).toArray();
+   
+   
+    res.send(touristSpots)
+   })
+   app.get('/toristSport/:country_Name',async(req,res)=>{
+   const countryNameId=req.params.country_Name
+   const quari={country_Name: countryNameId}
+   const result =await allToristSides.find(quari).toArray()
+   res.send(result)
+   })
+
+
+
+
+
+
+
+    // main part
     app.get('/details/:id',async(req,res)=>{
       const id =req.params.id
       const quari= {_id: new ObjectId(id)}
@@ -75,17 +103,17 @@ app.get('/torists_sides',async(req,res)=>{
     }
    
   }
-  console.log(userUpdate)
+
   const result =await toristList.updateOne(quari,userUpdate,options)
-  console.log(result)
+  
   res.send(result)
  })
  app.delete('/details/:id', async(req,res)=>{
    const id =req.params.id
-   console.log(id)
+  
    const quari={_id: new ObjectId (id)}
    const result=await toristList.deleteOne(quari)
-   console.log(result)
+ 
    res.send(result)
  })
 
